@@ -1,0 +1,155 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIRAN CINEMAS | Feel the Soul</title>
+    <style>
+        body { background-color: #050505; color: #e0e0e0; font-family: 'Georgia', serif; margin: 0; }
+        header { background: linear-gradient(#400, #000); padding: 60px; text-align: center; border-bottom: 2px solid #d4af37; }
+        .cinema-title { font-size: 4em; letter-spacing: 10px; color: #fff; margin: 0; text-transform: uppercase; }
+        
+        /* MOVIES SECTION */
+        .section-label { text-align: center; color: #d4af37; font-size: 2em; margin-top: 50px; text-transform: uppercase; letter-spacing: 3px; }
+        .movie-grid { display: flex; justify-content: center; gap: 30px; padding: 40px; flex-wrap: wrap; }
+        .movie-card { width: 320px; background: #111; border-radius: 15px; overflow: hidden; border: 1px solid #333; text-align: center; transition: 0.3s; }
+        .movie-card:hover { border-color: #ff0000; transform: translateY(-10px); box-shadow: 0 10px 20px rgba(255,0,0,0.3); }
+        .movie-card img { width: 100%; height: 450px; object-fit: cover; }
+        .actor-name { display: block; padding: 10px; color: #d4af37; font-weight: bold; font-size: 1.2em; }
+        .book-btn { background: #ff0000; color: #fff; border: none; padding: 12px 25px; margin-bottom: 20px; cursor: pointer; font-weight: bold; border-radius: 4px; text-transform: uppercase; }
+
+        /* SOULFUL GALLERY */
+        .soul-container { max-width: 1000px; margin: 50px auto; padding: 20px; }
+        .soul-row { display: flex; align-items: center; gap: 40px; margin-bottom: 80px; }
+        .soul-row:nth-child(even) { flex-direction: row-reverse; }
+        .soul-image { width: 500px; height: 300px; object-fit: cover; border-radius: 10px; box-shadow: 0 0 20px rgba(255,0,0,0.2); border: 1px solid #444; }
+        .soul-text { flex: 1; }
+        .soul-text h2 { color: #d4af37; font-size: 2em; margin-bottom: 15px; }
+        .soul-text p { font-style: italic; line-height: 1.8; color: #ccc; font-size: 1.1em; }
+
+        /* SEAT OVERLAY */
+        #booking-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; flex-direction: column; align-items: center; padding-top: 20px; }
+        .modal-box { background: #111; padding: 20px; border: 1px solid #d4af37; border-radius: 20px; text-align: center; width: 95%; max-width: 1200px; height: 90vh; overflow-y: auto; }
+        .screen-line { width: 70%; height: 8px; background: #fff; margin: 20px auto; box-shadow: 0 -5px 25px #fff; border-radius: 50%; }
+        .seat-grid { display: grid; gap: 4px; margin-top: 30px; padding: 20px; justify-content: center; }
+        .seat { width: 15px; height: 15px; background: #333; border-radius: 2px; cursor: pointer; }
+        .seat.selected { background: #ff0000; box-shadow: 0 0 8px #ff0000; }
+        .seat.booked-already { background: #1a1a1a; cursor: not-allowed; }
+
+        /* KIRAN CINEMAS SUCCESS APP PAGE */
+        #confirm-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; justify-content: center; align-items: center; font-family: 'Segoe UI', sans-serif; }
+        .app-card { background: #1a1a1a; width: 380px; border-radius: 25px; border: 1px solid #333; overflow: hidden; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .app-header { background: #1a1a1a; padding: 30px; text-align: center; }
+        .success-icon { width: 70px; height: 70px; background: #28a745; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 15px; }
+        .app-body { padding: 0 30px 30px; text-align: center; }
+        .ticket-info { background: #252525; border-radius: 15px; padding: 20px; margin: 20px 0; border: 1px dashed #444; }
+        .app-btn { background: #ff0000; color: white; border: none; padding: 15px; width: 80%; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 1em; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="cinema-title">KIRAN CINEMAS</h1>
+    <p style="color: #d4af37; letter-spacing: 2px;">Where Every Frame Has a Soul</p>
+</header>
+
+<div class="section-label">🎬 Now Showing</div>
+<div class="movie-grid">
+    <div class="movie-card">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\Jana_Nayagan.jpg">
+        <h3 style="margin:10px 0 0 0">🎞️ JANANAYAGAN</h3>
+        <span class="actor-name">THALAPATHY VIJAY</span>
+        <button class="book-btn" onclick="startBooking('JANANAYAGAN', 2000)">BOOK 2000 SEATS</button>
+    </div>
+    <div class="movie-card">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\TTT.jpg">
+        <h3 style="margin:10px 0 0 0">🎞️ TTT</h3>
+        <span class="actor-name">JIIVA</span>
+        <button class="book-btn" onclick="startBooking('TTT', 1000)">BOOK 1000 SEATS</button>
+    </div>
+    <div class="movie-card">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\mankatha.jpg">
+        <h3 style="margin:10px 0 0 0">🎞️ MANKATHA</h3>
+        <span class="actor-name">THALA AJITH</span>
+        <button class="book-btn" onclick="startBooking('MANKATHA', 2000)">BOOK 2000 SEATS</button>
+    </div>
+</div>
+
+<hr style="border: 0; height: 1px; background: #333; margin: 50px 0;">
+
+<div class="section-label">The Experience</div>
+<div class="soul-container">
+    <div class="soul-row"><img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\screen.png" class="soul-image"><div class="soul-text"><h2>The Grand Vision</h2><p>The screen isn't just a surface; it's a window to a soulful journey.</p></div></div>
+    <div class="soul-row"><img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\food.png" class="soul-image"><div class="soul-text"><h2>Taste of Cinema</h2><p>Every bite of our snacks adds a flavor to the story you are watching.</p></div></div>
+    <div class="soul-row"><img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\seat.png" class="soul-image"><div class="soul-text"><h2>Comfort in Darkness</h2><p>Sink into luxury. These seats are designed for your soul to rest.</p></div></div>
+    <div class="soul-row"><img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\canteen.png" class="soul-image"><div class="soul-text"><h2>The Social Hub</h2><p>Conversations, coffee, and the shared pulse of Madurai.</p></div></div>
+    <div class="soul-row"><img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\PARK.jpg" class="soul-image"><div class="soul-text"><h2>The Journey Begins</h2><p>A safe space for your ride while you travel through worlds.</p></div></div>
+    <div class="soul-row"><img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\light.png" class="soul-image"><div class="soul-text"><h2>Glow of Magic</h2><p>Ambiance that prepares your heart for the magic.</p></div></div>
+    <div class="soul-row"><img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\dolby.png" class="soul-image"><div class="soul-text"><h2>Breath of Sound</h2><p>Dolby Atmos. Feel it in your soul.</p></div></div>
+</div>
+<div id="booking-modal">
+    <div class="modal-box">
+        <h2 id="m-name" style="color:#d4af37; margin:0;"></h2>
+        <div class="screen-line"></div>
+        <div class="seat-grid" id="s-grid"></div>
+        <div style="margin: 30px 0;">
+            <button class="book-btn" style="background:#444" onclick="document.getElementById('booking-modal').style.display='none'">BACK</button>
+            <button class="book-btn" onclick="confirmBooking()">CONFIRM SEATS</button>
+        </div>
+    </div>
+</div>
+
+<div id="confirm-page">
+    <div class="app-card">
+        <div class="app-header">
+            <div class="success-icon">✓</div>
+            <h2 style="margin:0; color:#fff;">Booking Successful!</h2>
+            <p style="color:#888; font-size:14px;">Enjoy your movie at Kiran Cinemas</p>
+        </div>
+        <div class="app-body">
+            <div class="ticket-info">
+                <h3 id="final-movie" style="color:#d4af37; margin:0 0 10px 0; font-size:1.5em;"></h3>
+                <p style="margin:5px 0; color:#fff;">📍 Madurai Main Screen</p>
+                <p style="margin:5px 0; color:#aaa;">Quantity: <span id="final-count" style="color:#fff;"></span> Seats</p>
+                <p style="margin:5px 0; color:#aaa;">Showtime: Today | 06:45 PM</p>
+            </div>
+            <img src="E:\KIRAN CINEMAS\qr-code-2d@2x.png" style="border: 10px solid white; border-radius: 10px; width: 130px; margin-bottom: 20px;">
+            <br>
+            <button class="app-btn" onclick="location.reload()">BACK TO HOME</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentMovie = "";
+    function startBooking(name, count) {
+        currentMovie = name;
+        document.getElementById('m-name').innerText = name + " - " + count + " Seats";
+        const grid = document.getElementById('s-grid');
+        grid.innerHTML = "";
+        
+        // Accurate Column Logic for 2000/1000 seats
+        grid.style.gridTemplateColumns = (count === 2000) ? "repeat(50, 1fr)" : "repeat(40, 1fr)";
+        
+        // We show 800-1000 visual seats for smooth performance
+        let displayLimit = (count === 2000) ? 1000 : 600; 
+        for(let i=1; i<=displayLimit; i++) {
+            let s = document.createElement('div');
+            s.className = 'seat';
+            if(Math.random() < 0.1) s.classList.add('booked-already');
+            s.onclick = () => { if(!s.classList.contains('booked-already')) s.classList.toggle('selected'); };
+            grid.appendChild(s);
+        }
+        document.getElementById('booking-modal').style.display = 'flex';
+    }
+
+    function confirmBooking() {
+        const selected = document.querySelectorAll('.seat.selected').length;
+        if(selected === 0) return alert("Please select your seats, bro!");
+        document.getElementById('final-movie').innerText = currentMovie;
+        document.getElementById('final-count').innerText = selected;
+        document.getElementById('confirm-page').style.display = 'flex';
+    }
+</script>
+
+
+</body></html>
