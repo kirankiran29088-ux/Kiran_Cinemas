@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIRAN CINEMAS | Feel the Soul</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        body { background-color: #050505; color: #e0e0e0; font-family: 'Georgia', serif; margin: 0; user-select: none; }
+        
+        /* 1. BRAND LOGO ENTRY GATEWAY OVERLAY PAGE */
+        #brand-logo-gate { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle, #1a0202 0%, #000000 100%); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1); }
+        .top-right-logo-badge { position: absolute; top: 30px; right: 40px; border: 2px solid #d4af37; padding: 10px 20px; border-radius: 8px; background: rgba(0,0,0,0.8); box-shadow: 0 0 15px rgba(212,175,55,0.3); text-align: right; }
+        .badge-main-title { font-size: 1.2em; font-weight: bold; letter-spacing: 3px; color: #fff; margin: 0; text-transform: uppercase; }
+        .badge-sub-title { font-size: 0.65em; color: #d4af37; letter-spacing: 2px; text-transform: uppercase; margin: 2px 0 0 0; font-style: italic; }
+        .logo-shield { border: 4px double #d4af37; padding: 50px 70px; border-radius: 20px; text-align: center; background: rgba(0,0,0,0.85); box-shadow: 0 0 60px rgba(212, 175, 55, 0.2); animation: pulseGlow 3s infinite alternate; }
+        .logo-main-text { font-size: 5em; font-weight: 900; letter-spacing: 15px; color: #fff; margin: 0; text-shadow: 0 0 20px rgba(255,255,255,0.4), 3px 3px 0px #4a0000; text-transform: uppercase; }
+        .logo-sub-text { font-size: 1.3em; color: #d4af37; letter-spacing: 6px; text-transform: uppercase; margin-top: 15px; font-style: italic; }
+        .enter-theater-btn { margin-top: 40px; background: linear-gradient(135deg, #a30000 0%, #ff0000 100%); color: #fff; border: 2px solid #d4af37; padding: 15px 45px; font-size: 1.1em; font-weight: bold; letter-spacing: 3px; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(255,0,0,0.4); transition: 0.3s; text-transform: uppercase; }
+        .enter-theater-btn:hover { transform: scale(1.08); box-shadow: 0 0 30px #ff0000; border-color: #fff; }
+
+        @keyframes pulseGlow {
+            from { box-shadow: 0 0 40px rgba(212, 175, 55, 0.15); border-color: #d4af37; }
+            to { box-shadow: 0 0 60px rgba(255, 0, 0, 0.3); border-color: #ff0000; }
+        }
+
+        /* METROPLEX STRUCTURAL INTERFACE */
+        header { background: linear-gradient(#400, #000); padding: 60px; text-align: center; border-bottom: 2px solid #d4af37; }
+        .cinema-title { font-size: 4em; letter-spacing: 10px; color: #fff; margin: 0; text-transform: uppercase; }
+        .section-label { text-align: center; color: #d4af37; font-size: 2em; margin-top: 50px; text-transform: uppercase; letter-spacing: 3px; }
+        .movie-grid { display: flex; justify-content: center; gap: 30px; padding: 40px; flex-wrap: wrap; }
+        .movie-card { width: 320px; background: #111; border-radius: 15px; overflow: hidden; border: 1px solid #333; text-align: center; transition: 0.3s; }
+        .movie-card:hover { border-color: #ff0000; transform: translateY(-10px); box-shadow: 0 10px 20px rgba(255,0,0,0.3); }
+        .movie-card img { width: 100%; height: 450px; object-fit: cover; }
+        .actor-name { display: block; padding: 10px; color: #d4af37; font-weight: bold; font-size: 1.2em; }
+        .book-btn { background: #ff0000; color: #fff; border: none; padding: 12px 25px; margin-bottom: 20px; cursor: pointer; font-weight: bold; border-radius: 4px; text-transform: uppercase; }
+
+        /* 🎬 THE EXPERIENCE SECTION VISUAL METRICS */
+        .soul-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: flex; flex-direction: column; gap: 70px; }
+        .soul-row { display: flex; align-items: center; gap: 50px; }
+        .soul-row:nth-child(even) { flex-direction: row-reverse; }
+        .soul-image { flex: 1; max-width: 540px; height: auto; border-radius: 12px; border: 1px solid rgba(212,175,55,0.25); box-shadow: 0 0 30px rgba(255,0,0,0.08); object-fit: cover; transition: 0.4s ease; }
+        .soul-row:hover .soul-image { border-color: #d4af37; box-shadow: 0 0 35px rgba(212,175,55,0.18); }
+        .soul-text { flex: 1; }
+        .soul-text h2 { font-size: 2.3em; color: #d4af37; margin: 0 0 15px 0; font-weight: bold; letter-spacing: 1px; }
+        .soul-text p { font-size: 1.2em; line-height: 1.7; color: #ccc; font-style: italic; margin: 0; }
+
+        /* MULTIPLEX SCREEN CONTROLLER MODAL */
+        #screen-selector-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 999; justify-content: center; align-items: center; }
+        .screen-container-box { background: #111; padding: 35px; border: 2px solid #d4af37; border-radius: 20px; text-align: center; max-width: 480px; width: 90%; box-shadow: 0 0 40px rgba(212,175,55,0.15); }
+        .screen-selection-btn { background: linear-gradient(135deg, #1f1f1f, #111); border: 1px solid #d4af37; color: #fff; padding: 18px 25px; margin: 12px 0; border-radius: 12px; cursor: pointer; font-size: 1.05em; display: flex; justify-content: space-between; align-items: center; transition: 0.25s ease; width: 100%; }
+        .screen-selection-btn:hover { background: #ff0000; border-color: #fff; transform: scale(1.03); box-shadow: 0 0 15px rgba(255,0,0,0.4); }
+        .screen-capacity-pill { font-size: 0.85em; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 6px; color: #d4af37; border: 1px solid rgba(212,175,55,0.25); }
+
+        /* THEATER AMBIENT MATRIX GRID WITH BULK SEAT DRAG SELECTION */
+        #booking-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.99); z-index: 1000; flex-direction: column; align-items: center; padding-top: 10px; }
+        .modal-box { background: #0a0a0a; padding: 20px; border: 1px solid #d4af37; border-radius: 20px; text-align: center; width: 98%; max-width: 1400px; height: 95vh; display: flex; flex-direction: column; }
+        .screen-line { width: 60%; height: 6px; background: #fff; margin: 10px auto 25px; box-shadow: 0 -5px 25px #fff; border-radius: 50%; }
+        .drag-instruction { color: #888; font-size: 0.9em; margin-bottom: 12px; font-style: italic; letter-spacing: 1px; }
+        
+        /* SCROLLABLE VIEWPORT FRAME TO HANDLE GIANT SEATS MATRICES */
+        .theater-scroll-frame { flex: 1; overflow: auto; border: 1px solid #222; background: #000; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        
+        /* HORIZONTAL REALISTIC SLEEK ROWS CONFIGURATION */
+        .seat-grid { display: grid; gap: 4px 3px; margin: 0 auto; justify-content: center; width: max-content; }
+        .seat { width: 22px; height: 12px; background: #3a3a3a; border-radius: 2px; cursor: pointer; font-size: 7px; color: transparent; display: flex; align-items: center; justify-content: center; font-family: sans-serif; transition: 0.05s; border-bottom: 2px solid #222; }
+        .seat:hover { color: #fff; background: #d4af37; }
+        .seat.selected { background: #ff0000 !important; box-shadow: 0 0 6px #ff0000; color: #fff !important; border-color: #800000; }
+        .seat.booked-already { background: #161616 !important; cursor: not-allowed; color: transparent !important; border: none; opacity: 0.25; }
+        .seat.aisle-gap { background: transparent !important; cursor: default; pointer-events: none; border: none; width: 25px; }
+
+        /* MULTIPLEX LIVE FINANCE CONTROL PANEL DISPLAY */
+        .price-board { background: #111; border: 1px dashed #d4af37; border-radius: 12px; padding: 12px 20px; margin: 0 auto; width: 100%; max-width: 700px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 20px; text-align: left; font-family: 'Segoe UI', sans-serif; }
+        .price-row { display: flex; justify-content: space-between; color: #aaa; font-size: 0.9em; }
+        .price-total { display: flex; justify-content: space-between; color: #fff; font-weight: bold; font-size: 1.05em; grid-column: span 2; border-top: 1px dashed #333; padding-top: 5px; margin-top: 5px; }
+
+        /* TRANSACTION COMPLETE SUCCESS APP TICKETING SHIELD CARD */
+        #confirm-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; justify-content: center; align-items: center; font-family: 'Segoe UI', sans-serif; }
+        .app-card { background: #1a1a1a; width: 380px; border-radius: 25px; border: 1px solid #333; overflow: hidden; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .app-header { background: #1a1a1a; padding: 30px; text-align: center; }
+        .success-icon { width: 70px; height: 70px; background: #28a745; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 15px; }
+        .app-body { padding: 0 30px 30px; text-align: center; }
+        .ticket-info { background: #252525; border-radius: 15px; padding: 20px; margin: 20px 0; border: 1px dashed #444; text-align: left; }
+        .app-btn { background: #ff0000; color: white; border: none; padding: 15px; width: 80%; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 1em; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div id="brand-logo-gate">
+    <div class="top-right-logo-badge">
+        <div class="badge-main-title">Kiran Cinemas</div>
+        <div class="badge-sub-title">Madurai multiplex</div>
+    </div>
+    <div class="logo-shield">
+        <h1 class="logo-main-text">Kiran Cinemas</h1>
+        <div class="logo-sub-text">Where Every Frame Has a Soul</div>
+        <button class="enter-theater-btn" onclick="dismissLogoGate()">Enter Cinematic Soul</button>
+    </div>
+</div>
+
+<header>
+    <h1 class="cinema-title">KIRAN CINEMAS</h1>
+    <p style="color: #d4af37; letter-spacing: 2px;">Where Every Frame Has a Soul</p>
+</header>
+
+<div class="section-label">🎬 Now Showing</div>
+<div class="movie-grid">
+    <div class="movie-card">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\Jana_Nayagan.jpg">
+        <h3 style="margin:10px 0 0 0">🎞️ JANANAYAGAN</h3>
+        <span class="actor-name">THALAPATHY VIJAY</span>
+        <button class="book-btn" onclick="openScreenGateway('JANANAYAGAN')">BOOK SEATS</button>
+
+    </div>
+    <div class="movie-card">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\mankatha.jpg">
+        <h3 style="margin:10px 0 0 0">🎞️ MANKATHA</h3>
+        <span class="actor-name">THALA AJITH</span>
+        <button class="book-btn" onclick="openScreenGateway('MANKATHA')">BOOK SEATS</button>
+ </div>
+    <div class="movie-card">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\TTT.jpg">
+        <h3 style="margin:10px 0 0 0">🎞️ TTT</h3>
+        <span class="actor-name">JIIVA</span>
+        <button class="book-btn" onclick="openScreenGateway('TTT')">BOOK SEATS</button>
+ </div>
+</div>
+
+<div id="screen-selector-modal">
+    <div class="screen-container-box">
+        <h2 id="target-movie-heading" style="color: #fff; margin: 0 0 5px 0; letter-spacing: 1px;"></h2>
+        <p style="color: #d4af37; font-style: italic; margin-bottom: 25px; font-size: 0.95em;">Select your cosmic dimension inside Madurai Hub</p>
+        
+        <div id="screen-buttons-container"></div>
+        
+        <button class="book-btn" style="background:#222; margin-top:20px; width:100%; border:1px solid #444;" onclick="document.getElementById('screen-selector-modal').style.display='none'">CANCEL</button>
+    </div>
+</div>
+
+<div class="section-label">✨ The Experience</div>
+<div class="soul-container">
+    <div class="soul-row">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\screen.png" class="soul-image">
+        <div class="soul-text">
+            <h2>The Grand Vision</h2>
+            <p>The screen isn't just a surface; it's a window to a soulful journey.</p>
+        </div>
+    </div>
+    <div class="soul-row">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\food.png" class="soul-image">
+        <div class="soul-text">
+            <h2>Taste of Cinema</h2>
+            <p>Every bite of our snacks adds a flavor to the story you are watching.</p>
+        </div>
+    </div>
+    <div class="soul-row">
+        <img src="C:\Users\kiran\OneDrive\Desktop\KIRAN CINEMAS _ Feel the Soul 2_files - Copy\seat.png" class="soul-image">
+        <div class="soul-text">
+            <h2>Comfort in Darkness</h2>
+            <p>Sink into luxury. These seats are designed for your soul to rest.</p>
+        </div>
+    </div>
+</div>
+
+<div id="booking-modal">
+    <div class="modal-box">
+        <h2 id="m-name" style="color:#d4af37; margin:5px 0 0 0;"></h2>
+        <div class="screen-line"></div>
+        <div class="drag-instruction">💡 Horizontal Grid Layout: Hold left click & slide to paint premium luxury row seats!</div>
+        
+        <div class="theater-scroll-frame">
+            <div class="seat-grid" id="s-grid"></div>
+        </div>
+        
+        <div class="price-board">
+            <div class="price-row"><span>Seats Booked:</span><span id="live-count" style="color:#fff; font-weight:bold;">0</span></div>
+            <div class="price-row"><span>Base Rate (₹150):</span><span id="live-base">₹0.00</span></div>
+            <div class="price-row"><span>Selected IDs:</span><span id="live-seat-names" style="color:#d4af37; font-weight:bold; font-size:0.85em; max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">None</span></div>
+            <div class="price-row"><span>Handling Fee:</span><span id="live-handling">₹0.00</span></div>
+            <div class="price-row"><span>Integrated GST (18%):</span><span id="live-gst" style="grid-column: span 2;">₹0.00</span></div>
+            <div class="price-total"><span>Grand Payable Cash Matrix:</span><span id="live-total" style="color:#28a745; font-size:1.2em;">₹0.00</span></div>
+        </div>
+        
+        <div style="margin: 10px 0; display: flex; justify-content: center; gap: 20px; width:100%;">
+            <input type="email" id="user-email" maxlength="30" style="background: #111; border: 1px solid #333; color: white; padding: 10px; border-radius: 6px; width: 40%; font-size: 0.9em; text-align: center; outline: none;" placeholder="Enter Email Address">
+            <input type="tel" id="user-phone" maxlength="10" style="background: #111; border: 1px solid #333; color: white; padding: 10px; border-radius: 6px; width: 40%; font-size: 0.9em; text-align: center; outline: none;" placeholder="Enter 10-Digit Phone">
+        </div> 
+        
+        <div style="margin: 10px 0;">
+            <button class="book-btn" style="background:#333; margin-right:15px;" onclick="document.getElementById('booking-modal').style.display='none'">BACK</button>
+            <button class="book-btn" id="confirm-btn" onclick="confirmBooking()">CONFIRM & SECURE SEATS</button>
+        </div>
+    </div>
+</div>
+
+<div id="confirm-page">
+    <div class="app-card">
+        <div class="app-header">
+            <div class="success-icon">✓</div>
+            <h2 style="margin:0; color:#fff;">Booking Successful!</h2>
+            <p style="color:#888; font-size:14px;">Enjoy your movie at Kiran Cinemas</p>
+        </div>
+        <div class="app-body">
+            <div class="ticket-info">
+                <h3 id="final-movie" style="color:#d4af37; margin:0 0 10px 0; font-size:1.5em; text-align:center;"></h3>
+                <p id="final-screen-id" style="margin:5px 0; color:#fff; font-weight:bold;"></p>
+                <p style="margin:5px 0; color:#aaa;">🎫 Booking ID: <span id="final-booking-id" style="color:#fff; font-weight:bold;"></span></p>
+                <p style="margin:5px 0; color:#aaa;">🎟️ Seats: <span id="final-seat-names" style="color:#d4af37; font-weight:bold; word-break:break-all;"></span></p>
+                <p style="margin:5px 0; color:#aaa;">📦 Quantity: <span id="final-count" style="color:#fff;"></span> Ticket(s)</p>
+                <p style="margin:5px 0; color:#aaa;">💰 Total Paid: <span id="final-bill" style="color:#28a745; font-weight:bold;"></span></p>
+                <p style="margin:5px 0; color:#aaa;">⏰ Showtime: Today | 06:45 PM</p>
+            </div>
+            <img id="ticket-qr" src="" style="border: 10px solid white; border-radius: 10px; width: 130px; margin-bottom: 20px;">
+            <br>
+            <button class="app-btn" onclick="location.reload()">BACK TO HOME</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateSystemLog(message) {
+    const logBox = document.getElementById('system-log');
+    const timestamp = new Date().toLocaleTimeString();
+    logBox.innerHTML = `[${timestamp}] ${message}`;
+}
+    function dismissLogoGate() {
+        const gate = document.getElementById('brand-logo-gate');
+        gate.style.transform = 'translateY(-100vh)';
+        setTimeout(() => { gate.style.display = 'none'; }, 800);
+    }
+
+    // EmailJS Public Key initialization
+    (function(){
+        emailjs.init("4014462492efbc7a898de81a8626d689"); 
+    })();
+
+    // ⚠️ INGA UNGA EMAILJS-TWILIO MAPPED IDs-AI PODUNGA BRO:
+    const EMAILJS_TWILIO_SERVICE_ID = "YOUR_EMAILJS_TWILIO_SERVICE_ID_HERE"; 
+    const EMAILJS_TWILIO_TEMPLATE_ID = "YOUR_EMAILJS_TWILIO_TEMPLATE_ID_HERE"; 
+
+    let currentMovie = "";
+    let selectedScreenNum = 1;
+    const TICKET_RATE = 150; 
+    const HANDLING_CHARGE = 30; 
+    let billCalculation = { seats: 0, base: 0, handling: 0, gst: 0, total: 0, seatNames: "" };
+    
+    let isMouseDown = false;
+    window.addEventListener('mousedown', () => { isMouseDown = true; });
+    window.addEventListener('mouseup', () => { isMouseDown = false; });
+
+    const ROW_LETTERS = ["A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","U","V","W","X","Y","Z",
+                         "AA","BB","CC","DD","EE","FF","GG","HH","JJ","KK","LL","MM","NN","PP","QQ","RR","SS","TT","UU","VV","WW","XX","YY","ZZ"];
+
+    function openScreenGateway(movieName) {
+        currentMovie = movieName;
+        document.getElementById('target-movie-heading').innerText = movieName;
+        const container = document.getElementById('screen-buttons-container');
+        container.innerHTML = "";
+
+        if (movieName === "JANANAYAGAN") {
+            container.innerHTML = `
+                <button class="screen-selection-btn" onclick="generatePremiumArena(1, 40, 50)">
+                    <span>🎥 SCREEN 1 (Ultra Max)</span>
+                    <span class="screen-capacity-pill">2000 Seats</span>
+                </button>`;
+        } else if (movieName === "MANKATHA") {
+            container.innerHTML = `
+                <button class="screen-selection-btn" onclick="generatePremiumArena(2, 50, 40)">
+                    <span>🎥 SCREEN 2 (Premium Gold)</span>
+                    <span class="screen-capacity-pill">2000 Seats</span>
+                </button>`;
+        } else if (movieName === "TTT") {
+            container.innerHTML = `
+                <button class="screen-selection-btn" onclick="generatePremiumArena(3, 25, 40)">
+                    <span>🎥 SCREEN 3 (Titan Coliseum)</span>
+                    <span class="screen-capacity-pill">1000 Seats</span>
+                </button>`;
+        }
+
+        document.getElementById('screen-selector-modal').style.display = 'flex';
+    }
+
+    function generatePremiumArena(screenNumber, rows, columns) {
+        selectedScreenNum = screenNumber;
+        document.getElementById('screen-selector-modal').style.display = 'none';
+        document.getElementById('m-name').innerText = `${currentMovie} 🍿 SCREEN ${screenNumber}`;
+        
+        const grid = document.getElementById('s-grid');
+        grid.innerHTML = "";
+        updatePriceBoard(0, []);
+
+        let centerAisleIndex = Math.floor(columns / 2);
+        grid.style.gridTemplateColumns = `repeat(${columns + 1}, auto)`;
+        
+        for(let r = 0; r < rows; r++) {
+            let rowLetter = ROW_LETTERS[r] || `R${r}`;
+            
+            for(let cNum = 1; cNum <= columns; cNum++) {
+                if(cNum === centerAisleIndex + 1) {
+                    let walkwayGap = document.createElement('div');
+                    walkwayGap.className = 'seat aisle-gap';
+                    grid.appendChild(walkwayGap);
+                }
+
+                let seatIdentifier = `${rowLetter}-${cNum}`;
+                let s = document.createElement('div');
+                s.className = 'seat';
+                s.innerText = cNum;
+                s.setAttribute('data-seatid', seatIdentifier);
+                
+                if(Math.random() < 0.22) {
+                    s.classList.add('booked-already');
+                }
+                
+                s.addEventListener('mousedown', () => {
+                    if(!s.classList.contains('booked-already')) {
+                        s.classList.toggle('selected');
+                        refreshActiveCalculation();
+                    }
+                });
+
+                s.addEventListener('mouseenter', () => {
+                    if(isMouseDown && !s.classList.contains('booked-already')) {
+                        s.classList.add('selected');
+                        refreshActiveCalculation();
+                    }
+                });
+
+                grid.appendChild(s);
+            }
+        }
+        document.getElementById('booking-modal').style.display = 'flex';
+    }
+
+    function refreshActiveCalculation() {
+        const selectedChairs = document.querySelectorAll('.seat.selected');
+        let selectedSeatNamesArray = [];
+        selectedChairs.forEach(chair => {
+            selectedSeatNamesArray.push(chair.getAttribute('data-seatid'));
+        });
+        updatePriceBoard(selectedChairs.length, selectedSeatNamesArray);
+    }
+
+    function updatePriceBoard(selectedCount, seatNamesArray) {
+        billCalculation.seats = selectedCount;
+        billCalculation.seatNames = seatNamesArray.join(', ');
+        
+        if(selectedCount === 0) {
+            billCalculation.base = 0; billCalculation.handling = 0; billCalculation.gst = 0; billCalculation.total = 0;
+            document.getElementById('live-seat-names').innerText = "None";
+        } else {
+            billCalculation.base = selectedCount * TICKET_RATE;
+            billCalculation.handling = HANDLING_CHARGE;
+            billCalculation.gst = (billCalculation.base + billCalculation.handling) * 0.18;
+            billCalculation.total = billCalculation.base + billCalculation.handling + billCalculation.gst;
+            document.getElementById('live-seat-names').innerText = billCalculation.seatNames;
+        }
+        
+        document.getElementById('live-count').innerText = billCalculation.seats;
+        document.getElementById('live-base').innerText = "₹" + billCalculation.base.toFixed(2);
+        document.getElementById('live-handling').innerText = "₹" + billCalculation.handling.toFixed(2);
+        document.getElementById('live-gst').innerText = "₹" + billCalculation.gst.toFixed(2);
+        document.getElementById('live-total').innerText = "₹" + billCalculation.total.toFixed(2);
+    }
+
+    function dispatchRefixedBookingAlerts(email, phone, movie, calcData, bookingId) {
+        let textPayload = `KIRAN CINEMAS! Screen ${selectedScreenNum} Ticket Confirmed! ID: ${bookingId}, Movie: ${movie}, Seats: [ ${calcData.seatNames} ], Bill: ₹${calcData.total.toFixed(2)}. Madurai Multiplex. Enjoy the premium experience, bro!`;
+
+        let templateParams = {
+            to_email: email,
+            user_phone: "+91" + phone, 
+            movie_name: `${movie} (Screen ${selectedScreenNum})`,
+            seat_numbers: calcData.seatNames,
+            booking_id: bookingId,
+            total_payable: "₹" + calcData.total.toFixed(2),
+            sms_body_payload: textPayload
+        };
+
+        // EmailJS standard delivery pipeline handling SMS conversion safely
+        emailjs.send(EMAILJS_TWILIO_SERVICE_ID, EMAILJS_TWILIO_TEMPLATE_ID, templateParams)
+            .then(function(response) { 
+                console.log('Mass thala! SMS gateway data delivered successfully via EmailJS-Twilio portal.', response.status); 
+            }, 
+            function(error) { 
+                console.log('Gateway transmission tracking exception architecture error:', error); 
+            });
+    }
+
+    function confirmBooking() {
+function confirmBooking() {
+    // ... unga old code ...
+    
+    // Intha line-a add pannunga:
+    updateSystemLog("SUCCESS: Transaction secure. Gateway confirmation sent.");
+    
+    // ... unga old code ...
+    dispatchRefixedBookingAlerts(...);
+}
+        const selectedSeats = document.querySelectorAll('.seat.selected').length;
+        const emailInput = document.getElementById('user-email').value;
+        const phoneInput = document.getElementById('user-phone').value;
+
+        if(selectedSeats === 0) return alert("Please select your seats, bro!");
+        if(!emailInput || !emailInput.includes("@")) return alert("Please enter a valid email address!");
+        if(!phoneInput || phoneInput.length !== 10 || isNaN(phoneInput)) return alert("Please enter a valid 10-digit mobile number!");
+
+        const transactionId = "KC-" + Math.floor(100000 + Math.random() * 900000);
+
+        document.getElementById('confirm-btn').innerText = "PROCESSING...";
+        document.getElementById('confirm-btn').disabled = true;
+
+        document.getElementById('final-movie').innerText = currentMovie;
+        document.getElementById('final-screen-id').innerText = `🎬 Multiplex Gateway: SCREEN ${selectedScreenNum}`;
+        document.getElementById('final-booking-id').innerText = transactionId;
+        document.getElementById('final-count').innerText = selectedSeats;
+        document.getElementById('final-seat-names').innerText = billCalculation.seatNames;
+        document.getElementById('final-bill').innerText = "₹" + billCalculation.total.toFixed(2);
+        
+        document.getElementById('ticket-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=KIRAN_ID_${transactionId}_SCREEN${selectedScreenNum}_${currentMovie}_SEATS_${billCalculation.seatNames.replace(/ /g, '')}_TOTAL_INR_${billCalculation.total.toFixed(0)}`;
+        
+        dispatchRefixedBookingAlerts(emailInput, phoneInput, currentMovie, billCalculation, transactionId);
+
+        setTimeout(() => { document.getElementById('confirm-page').style.display = 'flex'; }, 800);
+    }
+</script>
+<div id="system-log" style="font-family: monospace; color: #d4af37; background: #000; padding: 15px; border: 1px solid #d4af37; position: fixed; bottom: 10px; right: 10px; width: 300px; z-index: 9999;">
+    [SYSTEM_READY] Kiran Cinemas Gateway Active...
+</div>
+</body>
+</html>
+</body></html>
